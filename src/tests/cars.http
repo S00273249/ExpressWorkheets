@@ -8,8 +8,60 @@ content-type: application/json
 x-api-key: blahblah
 
 {
-    "make": "Toyota",
-    "model": "Corolla"
+  "make": "Toyota",
+  "model": "Corolla",
+  "year": 2020
+}
+
+###
+
+# Missing make
+POST {{endpoint}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "model": "Corolla",
+  "year": 2020
+}
+
+###
+
+# Empty make
+POST {{endpoint}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "make": "",
+  "model": "Corolla",
+  "year": 2020
+}
+
+###
+
+# Invalid year
+POST {{endpoint}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "make": "Toyota",
+  "model": "Corolla",
+  "year": 1949
+}
+
+###
+
+# Wrong type for year
+POST {{endpoint}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "make": "Toyota",
+  "model": "Corolla",
+  "year": "2020"
 }
 
 ###
