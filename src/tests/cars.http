@@ -87,13 +87,76 @@ x-api-key: blahblah
 
 ###
 
+# Valid update - all fields
 PUT {{endpoint}}/{{newCar}} HTTP/1.1
 content-type: application/json
 x-api-key: blahblah
 
 {
-    "make": "Toyota",
-    "model": "Yaris"
+  "make": "Toyota",
+  "model": "Camry",
+  "year": 2022
+}
+
+###
+
+# Valid update - make only
+PUT {{endpoint}}/{{newCar}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "make": "Honda"
+}
+
+###
+
+# Valid update - year only
+PUT {{endpoint}}/{{newCar}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "year": 2023
+}
+
+###
+
+# Invalid update - empty make
+PUT {{endpoint}}/{{newCar}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "make": "",
+  "model": "Civic",
+  "year": 2023
+}
+
+###
+
+# Invalid update - year below 1950
+PUT {{endpoint}}/{{newCar}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "make": "Honda",
+  "model": "Civic",
+  "year": 1949
+}
+
+###
+
+# Invalid update - year is a string
+PUT {{endpoint}}/{{newCar}} HTTP/1.1
+content-type: application/json
+x-api-key: blahblah
+
+{
+  "make": "Honda",
+  "model": "Civic",
+  "year": "2023"
 }
 
 ###
