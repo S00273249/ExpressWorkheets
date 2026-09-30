@@ -3,13 +3,13 @@ import carRoutes from './routes/cars';
 import { env } from "./config/.env";
 import { connectDB } from "./config/database/database";
 import {authenticateKey} from './middleware/auth.middleware';
+import { loggingMiddleware } from './middleware/logging.middleware';
 
 const PORT = env.port || 4545;
 const app: Application = express();
 
 app.use(express.json());
-app.use('/api/v1/cars', carRoutes);
-app.use(authenticateKey);
+app.use('/api/v1/cars', loggingMiddleware, authenticateKey, carRoutes);
 
 
 app.get("/ping", async (_req : Request, res: Response) => {
@@ -22,11 +22,6 @@ app.get('/bananas', async (_req : Request, res: Response) => {
     res.json({
     message: "this is bananas",
     });
-});
-
-app.use((req, _res, next) => {  
-    console.log(`${req.method} ${req.originalUrl}`);
-    next();
 });
 
 const startServer = async () => {
