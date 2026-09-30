@@ -58,7 +58,7 @@ export class CarController {
 
     deleteCar = async (req: Request, res: Response): Promise<void> => {
       try {
-        const car = await carService.deleteCar(req.params.id);
+        const car = await carService.deleteCar(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id);
         if (!car) {
           res.status(404).json({ message: 'Car not found' });
           return;
