@@ -4,9 +4,17 @@ import { env } from "./config/.env";
 import { connectDB } from "./config/database/database";
 import {authenticateKey} from './middleware/auth.middleware';
 import { loggingMiddleware } from './middleware/logging.middleware';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
 
 const PORT = env.port || 4545;
 const app: Application = express();
+
+app.use(
+'/api-docs',
+swaggerUi.serve,
+swaggerUi.setup(swaggerSpec)
+);
 
 app.use(express.json());
 app.use('/api/v1/cars', loggingMiddleware, authenticateKey, carRoutes);
