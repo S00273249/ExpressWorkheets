@@ -1,13 +1,11 @@
 import express, {Application, Request, Response} from "express" ;
 import carRoutes from './routes/cars';
-import { env } from "./config/.env";
-import { connectDB } from "./config/database/database";
 import {authenticateKey} from './middleware/auth.middleware';
 import { loggingMiddleware } from './middleware/logging.middleware';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 
-const PORT = env.port || 4545;
+
 const app: Application = express();
 
 app.use(
@@ -32,14 +30,5 @@ app.get('/bananas', async (_req : Request, res: Response) => {
     });
 });
 
-const startServer = async () => {
-  await connectDB();
-
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-
-};
-
-startServer();
+export { app };
 
