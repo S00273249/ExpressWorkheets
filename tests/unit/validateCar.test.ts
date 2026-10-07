@@ -1,9 +1,4 @@
-import { createCarZSchema } from "../../models/cars";
-import { connectDB } from "../../config/database/database";
-
-beforeAll(async () => {
-await connectDB();
-});
+import { createCarZSchema } from "../../src/models/cars";
 
 const validCar = {
   "make": "Toyota",

@@ -1,11 +1,5 @@
 import request from "supertest";
-import { app } from "../../app";
-import { connectDB } from "../../config/database/database";
-
-beforeAll(async () => {
-await connectDB();
-});
-
+import { app } from "../../src/app";
 
 describe("GET /ping", () => {
     it("should return hello from Dan", async () => {
