@@ -58,28 +58,11 @@ export class CarController {
 */
     // Get a car by its ID
     getCarById = async (req: Request, res: Response): Promise<void> => {
-      try {
-
-        const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-        const car = await carService.getCarById(id);
-
-        if (!car) {
-          res.status(404).json({
-            message: 'Car not found'
-          });
-          return;
-        }
-
-        res.status(200).json(car);
-
-      } catch (error) {
-
-        res.status(500).json({
-            message: 'Error fetching car',
-            error
-        });
-      }
+      const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+      const car = await carService.getCarById(id);
+      res.status(200).json(car);
     };
+
     
     /**
  * @openapi
@@ -159,37 +142,10 @@ export class CarController {
  */
     // Update an existing car
     updateCar = async (req: Request, res: Response): Promise<void> => {
-      try {
-
-        const validation = updateCarZSchema.safeParse(req.body);
-
-        if (!validation.success) {
-          res.status(400).json({
-              message: 'Invalid car data',
-              errors: validation.error.issues
-          });
-          return;
-        }
-
         const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
         const updatedCar = await carService.updateCar(id, req.body);
 
-        if (!updatedCar) {
-          res.status(404).json({
-              message: 'Car not found'
-          });
-          return;
-        }
-
         res.status(200).json(updatedCar);
-
-      } catch (error) {
-
-        res.status(500).json({
-            message: 'Error updating car',
-            error
-        });
-      }
     };
 
 /**
@@ -216,27 +172,10 @@ export class CarController {
 
     // Delete a car by its ID
     deleteCar = async (req: Request, res: Response): Promise<void> => {
-      try {
-
         const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
         const car = await carService.deleteCar(id);
 
-        if (!car) {
-          res.status(404).json({
-              message: 'Car not found'
-          });
-          return;
-        }
-
         res.status(200).json(car);
-
-      } catch (error) {
-
-        res.status(500).json({
-            message: 'Error deleting car',
-            error
-        });
-      }
     };
 
 }

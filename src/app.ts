@@ -2,6 +2,7 @@ import express, {Application, Request, Response} from "express" ;
 import carRoutes from './routes/cars';
 import {authenticateKey} from './middleware/auth.middleware';
 import { loggingMiddleware } from './middleware/logging.middleware';
+import { errorHandler } from "./middleware/error.middleware";
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 
@@ -14,6 +15,7 @@ swaggerUi.serve,
 swaggerUi.setup(swaggerSpec)
 );
 
+app.use(errorHandler);
 app.use(express.json());
 app.use('/api/v1/cars', loggingMiddleware, authenticateKey, carRoutes);
 
