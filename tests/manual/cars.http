@@ -69,18 +69,18 @@ x-api-key: blahblah
 @newCar = {{postACar.response.body._id}}
 
 ###
-
+# Get a car by ID
 GET {{endpoint}}/{{newCar}} HTTP/1.1
 content-type: application/json
 x-api-key: blahblah
 
 ###
-
+# Get all cars
 GET {{endpoint}} HTTP/1.1
 content-type: application/json
 
 ###
-
+# Get all cars with API key
 GET {{endpoint}} HTTP/1.1
 content-type: application/json
 x-api-key: blahblah
@@ -160,7 +160,7 @@ x-api-key: blahblah
 }
 
 ###
-
+# Delete a car by ID
 DELETE {{endpoint}}/{{newCar}} HTTP/1.1
 content-type: application/json
 x-api-key: blahblah
