@@ -5,6 +5,7 @@ import { loggingMiddleware } from './middleware/logging.middleware';
 import { errorHandler } from "./middleware/error.middleware";
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
+import cors from 'cors';
 
 
 const app: Application = express();
@@ -15,6 +16,7 @@ swaggerUi.serve,
 swaggerUi.setup(swaggerSpec)
 );
 
+app.use(cors());
 app.use(errorHandler);
 app.use(express.json());
 app.use('/api/v1/cars', loggingMiddleware, authenticateKey, carRoutes);
