@@ -4,8 +4,6 @@ import { NotFoundError } from "../apperrors/NotFoundError";
 
 export class CarService {
 
-
-
   async getAllCars(): Promise<ICar[]> {
     return await CarModel.find().lean(); 
   }
