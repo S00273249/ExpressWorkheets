@@ -1,166 +1,190 @@
-@endpoint = http://localhost:3000/api/v1/cars
+@baseUrl = http://localhost:3000/api/v1
+@endpoint = {{baseUrl}}/cars
+
+### Login successfully
+# @name login
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "daniel.test@example.com",
+    "password": "password123"
+}
 
 ###
 
+@accessToken = {{login.response.body.token}}
+
+### Post a car
 # @name postACar
 POST {{endpoint}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "Toyota",
-  "model": "Corolla",
-  "year": 2020
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": 2020
 }
 
 ###
 
-# Missing make
+### Missing make
 POST {{endpoint}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "model": "Corolla",
-  "year": 2020
+    "model": "Corolla",
+    "year": 2020
 }
 
 ###
 
-# Empty make
+### Empty make
 POST {{endpoint}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "",
-  "model": "Corolla",
-  "year": 2020
+    "make": "",
+    "model": "Corolla",
+    "year": 2020
 }
 
 ###
 
-# Invalid year
+### Invalid year
 POST {{endpoint}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "Toyota",
-  "model": "Corolla",
-  "year": 1949
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": 1949
 }
 
 ###
 
-# Wrong type for year
+### Wrong type for year
 POST {{endpoint}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "Toyota",
-  "model": "Corolla",
-  "year": "2020"
+    "make": "Toyota",
+    "model": "Corolla",
+    "year": "2020"
 }
 
 ###
 
 @newCar = {{postACar.response.body._id}}
 
-###
-# Get a car by ID
+### Get a car by ID
 GET {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 ###
-# Get all cars
+
+### Get all cars without API key
 GET {{endpoint}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 
 ###
-# Get all cars with API key
+
+### Get all cars with API key
 GET {{endpoint}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 ###
 
-# Valid update - all fields
+### Valid update - all fields
 PUT {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "Toyota",
-  "model": "Camry",
-  "year": 2022
+    "make": "Toyota",
+    "model": "Camry",
+    "year": 2022
 }
 
 ###
 
-# Valid update - make only
+### Valid update - make only
 PUT {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "Honda"
+    "make": "Honda"
 }
 
 ###
 
-# Valid update - year only
+### Valid update - year only
 PUT {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "year": 2023
+    "year": 2023
 }
 
 ###
 
-# Invalid update - empty make
+### Invalid update - empty make
 PUT {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "",
-  "model": "Civic",
-  "year": 2023
+    "make": "",
+    "model": "Civic",
+    "year": 2023
 }
 
 ###
 
-# Invalid update - year below 1950
+### Invalid update - year below 1950
 PUT {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "Honda",
-  "model": "Civic",
-  "year": 1949
+    "make": "Honda",
+    "model": "Civic",
+    "year": 1949
 }
 
 ###
 
-# Invalid update - year is a string
+### Invalid update - year is a string
 PUT {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
 
 {
-  "make": "Honda",
-  "model": "Civic",
-  "year": "2023"
+    "make": "Honda",
+    "model": "Civic",
+    "year": "2023"
 }
 
 ###
-# Delete a car by ID
+
+### Delete a car without JWT
 DELETE {{endpoint}}/{{newCar}} HTTP/1.1
-content-type: application/json
+Content-Type: application/json
 x-api-key: blahblah
+
+###
+
+### Delete a car with JWT
+DELETE {{endpoint}}/{{newCar}} HTTP/1.1
+Content-Type: application/json
+x-api-key: blahblah
+Authorization: Bearer {{accessToken}}

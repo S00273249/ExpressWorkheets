@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import carRoutes from "./routes/cars";
+import authRoutes from "./routes/auth";
 import { authenticateKey } from "./middleware/auth.middleware";
 import { loggingMiddleware } from "./middleware/logging.middleware";
 import { errorHandler } from "./middleware/error.middleware";
@@ -10,9 +11,9 @@ import cors from "cors";
 const app: Application = express();
 
 app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec)
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec)
 );
 
 app.use(cors());
@@ -22,22 +23,24 @@ app.use(express.json());
 app.use((_req, _res, next) => setTimeout(next, 2000));
 
 app.use(
-  "/api/v1/cars",
-  loggingMiddleware,
-  authenticateKey,
-  carRoutes
+    "/api/v1/cars",
+    loggingMiddleware,
+    authenticateKey,
+    carRoutes
 );
 
+app.use("/api/v1/auth", authRoutes);
+
 app.get("/ping", async (_req: Request, res: Response) => {
-  res.json({
-    message: "hello from Dan"
-  });
+    res.json({
+        message: "hello from Dan"
+    });
 });
 
 app.get("/bananas", async (_req: Request, res: Response) => {
-  res.json({
-    message: "this is bananas"
-  });
+    res.json({
+        message: "this is bananas"
+    });
 });
 
 app.use(errorHandler);

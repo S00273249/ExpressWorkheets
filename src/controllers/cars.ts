@@ -1,4 +1,4 @@
-import { createCarZSchema, updateCarZSchema } from '../models/cars';
+import { createCarZSchema } from '../models/cars';
 import { Request, Response } from 'express';
 import { CarService } from '../services/cars';
 
